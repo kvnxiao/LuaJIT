@@ -600,6 +600,14 @@ E= @echo
 
 default all:	$(TARGET_T)
 
+printflags:
+	$(E) TARGET_ARCH:   $(TARGET_ARCH)
+	$(E) TARGET_LJARCH: $(TARGET_LJARCH)
+	$(E) DASM_ARCH:     $(DASM_ARCH)
+	$(E) DASM_AFLAGS:   $(DASM_AFLAGS)
+	$(E) TARGET_TCFLAGS:$(TARGET_TCFLAGS)
+	$(E) $(TARGET_CC) $(TARGET_TCFLAGS) -E lj_arch.h -dM
+
 amalg:
 	$(MAKE) all "LJCORE_O=ljamalg.o"
 
