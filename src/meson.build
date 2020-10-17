@@ -88,7 +88,7 @@ vmdef = custom_target('vmdef.lua',
     command : [buildvm, '-m', 'vmdef', '-o', '@OUTPUT@', '@INPUT@']
 )
 
-libluajit = library(lj_libname, ljlib_sources + ljcore_sources + buildvm_headers,
+luajit_lib = library(lj_libname, ljlib_sources + ljcore_sources + buildvm_headers,
     include_directories: luajit_source_dir,
     c_args: lj_defines,
     name_prefix: lj_libprefix,
@@ -96,15 +96,22 @@ libluajit = library(lj_libname, ljlib_sources + ljcore_sources + buildvm_headers
     install: true
 )
 
+luajit_dep = declare_dependency(
+    include_directories : luajit_source_dir,
+    compile_args : lj_defines,
+    link_with : luajit_lib,
+    dependencies: luajit_dependencies
+)
+
 luajit = executable('luajit', ljmain_sources,
     c_args: lj_defines,
-    link_with: libluajit,
+    link_with: luajit_lib,
     include_directories: luajit_source_dir,
     dependencies: luajit_dependencies,
     install: true
 )
 
-pkg.generate(libluajit,
+pkg.generate(luajit_lib,
     filebase : 'luajit',
     name : 'LuaJIT',
     description : 'Just-in-time compiler for Lua',
