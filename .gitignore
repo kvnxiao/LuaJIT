@@ -9,3 +9,10 @@
 *.dmp
 *.swp
 .tags
+
+# JetBrains IDEs
+.idea/
+
+# Meson setup directories
+build/
+builddir/
